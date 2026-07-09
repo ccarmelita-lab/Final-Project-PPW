@@ -110,13 +110,22 @@
     position: fixed;
     top: 68px; left: 0; right: 0;
     background: var(--white);
-    padding: 20px 24px;
-    gap: 16px;
+    padding: 8px 24px 20px;
+    gap: 0;
     z-index: 99;
     border-bottom:1px solid rgba(0,0,0,0.08);
   }
   .mobile-menu.open { display: flex; }
-  .mobile-menu a{ font-size:14px; font-weight:600; text-transform:uppercase; letter-spacing:.05em; text-decoration:none; }
+  .mobile-menu a{
+    font-size:15px;
+    font-weight:500;
+    text-transform:none;
+    letter-spacing:normal;
+    text-decoration:none;
+    color:var(--text-dark);
+    padding:16px 0;
+    border-bottom:1px solid rgba(0,0,0,0.08);
+  }
 
   @media (max-width: 62rem) {
     .nav-links, .nav-search { display: none; }
@@ -135,7 +144,7 @@
     overflow:hidden;
     background-image:
       linear-gradient(100deg, rgba(15,38,26,0.65), rgba(15,38,26,0.35) 55%, rgba(15,38,26,0.7)),
-      url("https://helloindonesia.id/wp-content/uploads/2025/09/Sekaten-Yogyakarta-1536x838.jpg");
+      url("https://kebudayaan.jogjakota.go.id/gallery/hit/MTExOTUwcDA/20220830103129_KOMUNITAS_GAYAM16.jpeg");
     background-size:cover;
     background-position:center;
   }
@@ -592,9 +601,9 @@
 <body>
 <!-- NAV -->
 <nav id="navbar">
-  <a href="index.html" class="nav-logo">Jelajah<span>Jogja</span></a>
+  <a href="beranda.html" class="nav-logo">Jelajah<span>Jogja</span></a>
   <ul class="nav-links">
-    <li><a href="index.html">Beranda</a></li>
+    <li><a href="beranda.html">Beranda</a></li>
     <li class="dropdown">
       <a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">
         Destinasi
@@ -603,7 +612,7 @@
         </svg>
       </a>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="index.html">Wisata</a></li>
+        <li><a class="dropdown-item" href="wisata.html">Wisata</a></li>
         <li><a class="dropdown-item" href="budaya.html">Budaya</a></li>
       </ul>
     </li>
@@ -616,8 +625,8 @@
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="index.html">Beranda</a>
-  <a href="destinasi.html">Destinasi</a>
+  <a href="beranda.html">Beranda</a>
+  <a href="wisata.html">Wisata</a>
   <a href="budaya.html">Budaya</a>
   <a href="Ulasan">Ulasan</a>
   <a href="kontak.html">Kontak</a>
@@ -742,8 +751,8 @@
       desc:"Ritual turun-temurun yang menjaga hubungan manusia, alam, dan yang gaib tetap seimbang.",
       gradient:"linear-gradient(160deg,#1c3d2e,#3d2a1c)",
       items:[
-        {name:"Grebeg Maulud", photo:"https://tse2.mm.bing.net/th/id/OIP.msl-Ulp82DtLn7HEUux73QHaE8?r=0&pid=Api&P=0&h=180", tag:"Upacara Kraton", fact1:["Waktu","Maulid Nabi"], fact2:["Simbol","Gunungan hasil bumi"], desc:"Arak-arakan gunungan hasil bumi dari kraton menuju Masjid Gedhe, dipercaya membawa berkah bagi siapa pun yang mendapat bagiannya."},
-        {name:"Sekaten", photo:"https://3.bp.blogspot.com/-jLthLZQvYMA/T1t11abgocI/AAAAAAAAAGw/52wDePstKhQ/s1600/2066603845_779b5b30b01.jpg", tag:"Perayaan", fact1:["Durasi","Sepekan"], fact2:["Lokasi","Alun-alun Utara"], desc:"Perayaan tahunan memperingati kelahiran Nabi Muhammad, memadukan gamelan pusaka, pasar malam, dan ritual kraton."},
+        {name:"Grebeg Maulud", photo:"https://kabarjawa.com/wp-content/uploads/2025/08/Asal-usul-Grebeg-Maulud-Kraton-Jogja.webp", tag:"Upacara Kraton", fact1:["Waktu","Maulid Nabi"], fact2:["Simbol","Gunungan hasil bumi"], desc:"Arak-arakan gunungan hasil bumi dari kraton menuju Masjid Gedhe, dipercaya membawa berkah bagi siapa pun yang mendapat bagiannya."},
+        {name:"Sekaten", photo:"https://events.rumah123.com/news-content/img/2021/10/18102526/Upacara-Sekaten.jpg", tag:"Perayaan", fact1:["Durasi","Sepekan"], fact2:["Lokasi","Alun-alun Utara"], desc:"Perayaan tahunan memperingati kelahiran Nabi Muhammad, memadukan gamelan pusaka, pasar malam, dan ritual kraton."},
         {name:"Labuhan Merapi", photo:"https://asset.kompas.com/crops/IOcirQQiHP9SfJuZLOjoq6J_ZEI=/0x0:1280x853/1200x800/data/photo/2023/02/23/63f6df563e7b8.jpeg", tag:"Ritual Alam", fact1:["Tujuan","Keseimbangan alam"], fact2:["Lokasi","Lereng Merapi"], desc:"Ritual persembahan yang digelar di lereng Merapi sebagai wujud syukur dan permohonan keselamatan dari bencana."},
         {name:"Tumplak Wajik", photo:"https://cdn.antaranews.com/cache/800x533/2023/04/19/antarafoto-tradisi-numplak-wajik-keraton-yogyakarta-190423-afa-1.jpg", tag:"Ritual Kraton", fact1:["Bagian dari","Rangkaian Sekaten"], fact2:["Makna","Gotong royong"], desc:"Ritual menumbuk bahan gunungan diiringi tembang, menjadi penanda dimulainya persiapan Grebeg di kraton."},
       ]
@@ -754,8 +763,8 @@
       gradient:"linear-gradient(160deg,#4a1f2b,#2a4a3f)",
       items:[
         {name:"Gudeg", photo:"https://grosirmesin.com/wp-content/uploads/2019/03/gudeg-nangka-telur.jpg", tag:"Makanan Khas", fact1:["Bahan Utama","Nangka muda"], fact2:["Rasa","Manis gurih"], desc:"Olahan nangka muda yang dimasak berjam-jam dengan santan dan gula jawa hingga legit, identik dengan julukan Kota Gudeg."},
-        {name:"Bakpia Pathok", photo:"https://tse2.mm.bing.net/th/id/OIP.dmChGkw0m4i_2wmABoig0QHaE8?r=0&pid=Api&P=0&h=180", tag:"Oleh-oleh", fact1:["Isi","Kacang hijau"], fact2:["Asal","Kampung Pathok"], desc:"Kue panggang berisi kacang hijau manis, oleh-oleh wajib yang namanya melekat pada kampung asalnya di dekat Malioboro."},
-        {name:"Kipo", photo:"https://tse3.mm.bing.net/th/id/OIP.bs9EVoD4Pwn3512KQfnJRwHaEK?r=0&pid=Api&P=0&h=180", tag:"Jajanan Tradisional", fact1:["Bahan","Tepung ketan"], fact2:["Warna","Hijau pandan"], desc:"Jajanan mungil berwarna hijau isi kelapa parut manis, kini semakin langka dan hanya dijual di sudut-sudut tertentu Kotagede."},
+        {name:"Bakpia Pathok", photo:"https://static.vecteezy.com/system/resources/previews/009/804/761/large_2x/bakpia-bakpia-pathok-is-a-typical-yogyakarta-food-made-from-a-mixture-of-green-beans-cheese-and-sugar-which-is-wrapped-in-flour-then-baked-photo.JPG", tag:"Oleh-oleh", fact1:["Isi","Kacang hijau"], fact2:["Asal","Kampung Pathok"], desc:"Kue panggang berisi kacang hijau manis, oleh-oleh wajib yang namanya melekat pada kampung asalnya di dekat Malioboro."},
+        {name:"Kipo", photo:"https://unimmafm.com/wp-content/uploads/2025/03/b676a50edbc09fe6824385d838f1736d.jpg", tag:"Jajanan Tradisional", fact1:["Bahan","Tepung ketan"], fact2:["Warna","Hijau pandan"], desc:"Jajanan mungil berwarna hijau isi kelapa parut manis, kini semakin langka dan hanya dijual di sudut-sudut tertentu Kotagede."},
         {name:"Jadah Tempe", photo:"https://www.kooliner.com/blog/wp-content/uploads/2015/06/Jadah-Tempe-3.jpg", tag:"Makanan Khas", fact1:["Bahan","Ketan & tempe bacem"], fact2:["Asal","Kaliurang"], desc:"Perpaduan ketan gurih dan tempe bacem manis, camilan khas kawasan lereng Merapi yang populer sejak era kolonial."},
       ]
     },
