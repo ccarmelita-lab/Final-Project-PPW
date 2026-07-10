@@ -148,22 +148,6 @@
     background-size:cover;
     background-position:center;
   }
-  .hero-arrow{
-    position:absolute;
-    top:50%; transform:translateY(-50%);
-    width:46px; height:46px;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,0.5);
-    background:rgba(0,0,0,0.15);
-    color:var(--white);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    transition:.2s;
-    z-index:5;
-  }
-  .hero-arrow:hover{ background:rgba(255,255,255,0.18); }
-  .hero-arrow.prev{ left:28px; }
-  .hero-arrow.next{ right:28px; }
 
   .eyebrow{
     font-family:'IBM Plex Mono', monospace;
@@ -633,12 +617,6 @@
 </div>
 
 <header>
-  <button class="hero-arrow prev" aria-label="Sebelumnya">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-  </button>
-  <button class="hero-arrow next" aria-label="Berikutnya">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-  </button>
   <span class="eyebrow">Warisan Budaya Yogyakarta</span>
   <h1 class="title">Pesona <em>Budaya</em> Yogyakarta</h1>
   <p class="hero-desc">Yogyakarta menyimpan berbagai warisan budaya yang kaya mulai dari tradisi dan karya seni. Setiap tradisi dan karya seni mencerminkan filosofi yang diwariskan dari generasi ke generasi. Yogyakarta tidak hanya menjadi destinasi wisata, tetapi juga menjadi pusat pelestarian budaya yang memperkenalkan identitas dan keindahan budaya Indonesia kepada dunia.</p>
