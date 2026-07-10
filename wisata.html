@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jelajah Jogja — Wisata per Wilayah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box; margin:0; padding:0;}
+  :root{
+    --white:#ffffff;
+    --soga-deep:#180f09;
+    --paper:#f2e6cd;
+    --paper-dim:#e8d8b8;
+    --prada:#c9982f;
+    --prada-light:#e0b95a;
+    --green-deep: #1a4a2e;
+    --green-mid: #1f6b3a;
+    --text-dark: #1a1a1a;
+    --line: rgba(242,230,205,0.14);
+    --radius: 18px;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    color:var(--text-dark);
+    font-family:'Manrope', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  a{color:inherit;}
+
+ /* ============ NAV ============ */
+  nav#navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: grid; 
+  grid-template-columns: 1fr auto 1fr; 
+  align-items: center;
+  padding: 0 48px; height: 68px; 
+  background: rgba(255,255,255,0.97);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  transition: box-shadow 0.3s;
+}
+  nav#navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+  .nav-logo { font-family: 'Manrope', sans-serif; font-size: 18px; font-weight: 700; color: var(--text-dark); text-decoration: none; white-space:nowrap; }
+  .nav-logo span { color: var(--green-mid); }
+  .nav-logo { grid-column: 1; justify-self: start; }
+  .nav-toggle { grid-column: 3; justify-self: end; }
+  .nav-links { display: flex; gap: 30px; list-style: none; justify-self: center; grid-column: 2; align-items:baseline; }
+  .nav-links a { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: var(--text-dark); transition: color 0.2s; padding-bottom:6px; border-bottom:2px solid transparent; }
+  .nav-links a:hover { color: var(--prada); }
+
+  /* Dropdown */
+  .dropdown{ position:relative; }
+  .dropdown-toggle{
+  display:flex; align-items:center; gap:5px; cursor:pointer;
+  padding-bottom:6px; border-bottom:2px solid transparent;
+  line-height:normal;
+  }
+  .dropdown-arrow{ transition:transform .2s ease; flex-shrink:0; margin-top:1px; }
+  .dropdown:hover .dropdown-arrow{ transform:rotate(180deg); }
+  .dropdown-menu{
+    position:absolute; top:100%; left:50%;
+    transform:translateX(-50%) translateY(8px);
+    background:var(--white); border-radius:12px;
+    box-shadow:0 20px 40px -12px rgba(0,0,0,0.25);
+    padding:10px; min-width:170px; list-style:none;
+    display:flex; flex-direction:column; gap:2px;
+    opacity:0; pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+    z-index:10;
+  }
+  .dropdown:hover .dropdown-menu{ opacity:1; pointer-events:auto; transform:translateX(-50%) translateY(0); }
+  .dropdown-item{
+    display:block; font-size:12.5px !important; font-weight:600;
+    text-transform:none !important; letter-spacing:0 !important;
+    padding:9px 12px !important; border-radius:8px;
+    border-bottom:none !important; color:var(--text-dark);
+  }
+  .dropdown-item:hover{ background:var(--paper); color:var(--soga-deep) !important; }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+  }
+  .nav-toggle span {
+    width: 24px; height: 2px;
+    background: var(--text-dark);
+    transition: 0.3s;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 68px; left: 0; right: 0;
+    background: var(--white);
+    padding: 20px 24px;
+    gap: 16px;
+    z-index: 99;
+    border-bottom:1px solid rgba(0,0,0,0.08);
+    transform: translateY(-12px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .mobile-menu.open { transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;}
+  .mobile-menu a{ 
+    padding: 14px 0; font-size:14px; font-weight:500; border-bottom: 1px solid rgba(0,0,0,0.05); text-decoration:none; }
+
+  @media (max-width: 62rem) {
+    .nav-links, .nav-search { display: none; }
+    .nav-toggle { display: flex; }
+  }
+  /* ============ HEADER / HERO ============ */
+  header{
+    background-image: linear-gradient(180deg, rgba(26,74,46,0.35), rgba(26,74,46,0.85)),
+      url(https://images.unsplash.com/photo-1655861467672-215aaeb119ff?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+    background-size: cover;
+    background-position: center;
+    position:relative;
+    padding:80px 6vw 20px;
+    overflow:hidden;
+    min-height: 50rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    font-size:15px;
+    color:var(--white);
+    margin-top: 30px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:1px;
+    background:var(--cream);
+    display:inline-block;
+  }
+  h1.title{
+    font-family:'Yeseva One', serif;
+    font-weight:400;
+    font-size:clamp(50px, 7vw, 84px);
+    line-height:1.02;
+    margin:18px 0 20px;
+    margin-top: auto;
+    color:var(--white);
+  }
+  h1.title em{
+    font-style:normal;
+    color:var(--white);
+  }
+  .sticky-note {
+    background: var(--paper-dim);
+    color: #180f09;
+    padding: 1rem 1rem 1rem 3rem;
+    max-width: 40rem;
+    margin-left: -6vw;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .sticky-note p {
+    text-align: justify;
+  }
+  .btn-tambah {
+    flex-shrink: 0;        /* biar tombol nggak "gepeng" kalau teksnya panjang */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #180f09;
+    background-color: var(--prada-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .btn-tambah:hover {
+    background-color: var(--prada);
+    transform: scale(1.08);
+  }
+
+  .btn-icon {
+    display: inline-block;
+    opacity: 0;
+    transform: scale(0.4);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .btn-tambah:hover .btn-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .btn-icon svg {
+    display: block;
+  }
+
+  .btn-tambah:hover .btn-icon svg {
+    animation: rotate-center 1.5s ease-in-out infinite both;
+  }
+
+  @keyframes rotate-center {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  @media (max-width: 60rem) {
+    .sticky-note {
+      position: static;
+      max-width: none; 
+      margin-left: -6vw;
+      margin-right: -6vw;
+    }
+  }
+  @media (max-width: 250rem) {
+    .sticky-note {
+       max-width: 50rem;
+    }
+  }
+
+  /* ============ REGION NAV ============ */
+  nav.regions{
+    position:sticky; top:0; z-index:30;
+    display:block;
+    height:auto;
+    padding:16px 6vw;
+    background:#1a4a2e;
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom:1px solid var(--line);
+  }
+  .filter-toggle{
+    display:none;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    padding:9px 16px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .chip-list{
+    display:flex; gap:8px; flex-wrap:wrap;
+    max-width: 87.5rem;
+    margin: auto;
+  }
+  .chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:.03em;
+    padding:9px 16px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--ink-dim);
+    cursor:pointer;
+    transition:.25s ease;
+    white-space:nowrap;
+  }
+  .chip:hover{ color:var(--ink); border-color:var(--prada-light); }
+  .chip.active{
+    background:var(--prada);
+    color:var(--soga-deep);
+    border-color:var(--prada);
+    font-weight:600;
+  }
+
+  @media (max-width: 960px){
+    .filter-toggle{ display:flex; }
+    .chip-list{
+      display:none;
+      flex-direction:column;
+      width:100%;
+      margin-top:12px;
+    }
+    .chip-list.open{
+      display:flex;
+      background: rgba(0,0,0,0.15);
+      padding: 12px;
+      border-radius: 12px;
+    }
+    .chip{ width:100%; text-align:left; }
+  }
+
+  /* ============ MAIN / REGION BLOCKS ============ */
+  main{ padding:56px 6vw 100px; }
+  .region-block{ margin-bottom:76px; scroll-margin-top:80px; }
+  .region-head{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:20px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:16px;
+    margin-bottom:28px;
+    max-width: 87.5rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .region-head h2{
+    font-family:'Yeseva One', serif;
+    font-weight:400;
+    font-size:clamp(26px,3.4vw,38px);
+    display:flex; align-items:baseline; gap:14px;
+  }
+  .region-head h2 .idx{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:14px;
+    color:var(--candi-light);
+    font-weight:500;
+  }
+  .region-head p{
+    max-width:420px;
+    font-size:13.5px;
+    color:var(--ink-dim);
+    line-height:1.55;
+    text-align:right;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:18px;
+    max-width: 87.5rem;
+    margin: auto;
+  }
+  @media(max-width:1100px){ .grid{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:560px){ .grid{grid-template-columns:1fr;} }
+
+  .card{
+    position:relative;
+    border-radius:var(--radius);
+    aspect-ratio:3/4;
+    overflow:hidden;
+    cursor:pointer;
+    border:1px solid var(--line);
+    transform:translateZ(0);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
+  }
+  .card:hover{
+    transform:translateY(-6px) scale(1.015);
+    box-shadow:0 24px 50px -18px rgba(0,0,0,0.55);
+  }
+  .card:hover .card-shade{ opacity:.55; }
+  .card-photo{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .card-photo-img{
+    width:100%; height:100%;
+    object-fit:cover;
+    transition:transform .4s ease;
+  }
+  .card:hover .card-photo-img{ transform:scale(1.06); }
+  .card-shade{
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 35%, rgba(10,7,4,0.82) 100%);
+    opacity:.75;
+    transition:opacity .3s ease;
+  }
+  .card-info{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:16px;
+  }
+  .card-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--prada-light);
+    display:block;
+    margin-bottom:4px;
+  }
+  .card-name{
+    font-family:'Manrope', sans-serif;
+    font-weight:700;
+    font-size:16.5px;
+    line-height:1.25;
+    color: var(--cream);
+  }
+
+  /* ============ POPOUT MODAL ============ */
+  .overlay{
+    position:fixed; inset:0;
+    background:rgba(14,9,5,0.55);
+    backdrop-filter: blur(18px) saturate(120%);
+    -webkit-backdrop-filter: blur(18px) saturate(120%);
+    display:flex; align-items:center; justify-content:center;
+    z-index:100;
+    padding:24px;
+    opacity:0; pointer-events:none;
+    transition:opacity .28s ease;
+  }
+  .overlay.open{ opacity:1; pointer-events:auto; }
+
+  .popout{
+    width: clamp(min(340px, 100%), 55vw, 920px);
+    max-height:88vh;
+    overflow:auto;
+    background:var(--paper);
+    color:var(--soga-deep);
+    border-radius:22px;
+    display:grid;
+    grid-template-columns:1.05fr 1fr;
+    box-shadow:0 40px 90px -20px rgba(0,0,0,0.65);
+    transform:scale(.86) translateY(18px);
+    opacity:0;
+    transition:transform .32s cubic-bezier(.2,.9,.25,1.15), opacity .28s ease;
+  }
+  .overlay.open .popout{ transform:scale(1) translateY(0); opacity:1; }
+  @media(max-width:640px){ .popout{ grid-template-columns:1fr; } }
+
+  .popout-photo{
+    position:relative;
+    min-height:260px;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .popout-photo .card-shade{ opacity:.35; }
+
+  .popout-body{
+    padding:30px 30px 30px 26px;
+    display:flex; flex-direction:column;
+  }
+  .popout-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--candi);
+    font-weight:600;
+  }
+  .popout-body h3{
+    font-family:'Yeseva One', serif;
+    font-weight:400;
+    font-size:30px;
+    margin:8px 0 14px;
+    line-height:1.08;
+  }
+  .popout-body p{
+    font-size:14.5px;
+    line-height:1.7;
+    color:#4a3c28;
+    text-align: justify;
+  }
+  .popout-facts{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    border-top:1px dashed rgba(36,26,18,0.25);
+    padding-top:16px;
+  }
+  .popout-facts div{ font-size:11.5px; }
+  .popout-facts b{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    margin-top:2px;
+    color:var(--soga-deep);
+  }
+  .popout-facts span{ color:#7a6a4e; }
+
+  .close-btn{
+    position:absolute; top:16px; right:16px;
+    width:36px; height:36px;
+    border-radius:50%;
+    border:none;
+    background:rgba(20,14,8,0.55);
+    color:var(--paper);
+    font-size:18px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:.2s;
+    z-index:5;
+  }
+  .close-btn:hover{ background:var(--soga-deep); }
+
+  /* ============ FOOTER ============ */
+  footer.site-footer{
+    background:#0f0f0f;
+    color:#a9a49b;
+    padding:64px 6vw 0;
+  }
+  .footer-top{
+    display:flex;
+    flex-wrap:wrap;
+    gap:60px;
+    justify-content:space-between;
+    max-width:87.5rem;
+    margin:0 auto;
+    padding-bottom:48px;
+  }
+  .footer-brand .nav-logo{ color:var(--white); font-size:20px; }
+  .footer-brand p{
+    margin-top:14px;
+    max-width:30rem;
+    font-size:14px;
+    line-height:1.6;
+    text-align: justify;
+    color:#8a857c;
+  }
+
+  .footer-bottom{
+    max-width:87.5rem;
+    margin:0 auto;
+    border-top:1px solid rgba(255,255,255,0.08);
+    padding:24px 0 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+    font-size:13px;
+  }
+  .socials{ display:flex; gap:12px; }
+  .socials a{
+    width:34px; height:34px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.06);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px;
+    text-decoration:none;
+    color:#c9c3b8;
+    transition:.2s;
+  }
+  .socials a:hover{ background:var(--green-mid); color:var(--white); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; }
+  }
+</style>
+</head>
+<body>
+<!-- NAV -->
+<nav id="navbar">
+  <a href="beranda.html" class="nav-logo">Jelajah<span>Jogja</span></a>
+  <ul class="nav-links">
+    <li><a href="beranda.html">Beranda</a></li>
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+        Destinasi
+        <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="wisata.html">Wisata</a></li>
+        <li><a class="dropdown-item" href="budaya.html">Budaya</a></li>
+      </ul>
+    </li>
+    <li><a href="ulasan.html">Ulasan</a></li>
+    <li><a href="kontak.html">Kontak</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Buka menu" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="beranda.html">Beranda</a>
+  <a href="wisata.html">Wisata</a>
+  <a href="budaya.html">Budaya</a>
+  <a href="ulasan.html">Ulasan</a>
+  <a href="kontak.html">Kontak</a>
+</div>
+
+
+<header>
+  <span class="eyebrow">Daerah Istimewa Yogyakarta</span>
+  <h1 class="title">Wisata <em>Jogja</em></h1>
+  <!--<p class="hero-sub">Kumpulan destinasi wisata dari lima wilayah DIY — pantai karst di selatan, lereng Merapi di utara, hingga jantung budaya di kota. Klik salah satu foto untuk membuka kartunya.</p>-->
+  <div class="sticky-note">
+    <p>Tahu tempat wisata atau kuliner underrated di sekitarmu? Klik tombol disamping untuk ikut mengenalkan keindahan lokal Jogja yang tersembunyi!</p>
+    <a href="ulasan.html#ulasan" class="btn-tambah" aria-label="Tambah destinasi baru">
+    <span class="btn-icon">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+      <path d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.6 7-6.2-3.9-6.2 3.9 1.6-7L2 9.5l7.1-.6L12 2z"/>
+    </svg>
+    </span>
+    </a>
+  </div>
+</header>
+
+<nav class="regions" id="regionNav">
+  <button class="filter-toggle" id="filterToggle" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="16" height="16"><line x1="4" y1="7" x2="20" y2="7"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="17" x2="14" y2="17"/></svg>
+    Filter
+  </button>
+  <div class="chip-list" id="chipList">
+    <button class="chip active" data-target="all">Semua</button>
+    <button class="chip" data-target="gunungkidul">Gunung Kidul</button>
+    <button class="chip" data-target="sleman">Sleman</button>
+    <button class="chip" data-target="bantul">Bantul</button>
+    <button class="chip" data-target="kulonprogo">Kulon Progo</button>
+    <button class="chip" data-target="kota">Kota Yogyakarta</button>
+  </div>
+</nav>
+
+<main id="main"></main>
+
+<div class="overlay" id="overlay">
+  <div class="popout" id="popout" role="dialog" aria-modal="true">
+    <button class="close-btn" id="closeBtn" aria-label="Tutup">✕</button>
+    <div class="popout-photo" id="popoutPhoto"></div>
+    <div class="popout-body" id="popoutBody"></div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">Jelajah<span>Jogja</span></a>
+      <p>Jelajahi Keindahan, Rasakan Keistimewaan Yogyakarta. Temukan destinasi wisata, budaya, kuliner, dan pesona alam yang menjadikan Jogja selalu istimewa di setiap langkah perjalananmu.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 JelajahJogja. Hak cipta dilindungi.</span>
+    <div class="socials">
+      <a href="https://www.facebook.com/jogya/" aria-label="Facebook">f</a>
+      <a href="https://www.instagram.com/jogjaku/" aria-label="Instagram">ig</a>
+      <a href="https://youtu.be/0Fi4JeizyZg?si=cBzFVc7iasAHq2Tm" aria-label="YouTube">yt</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+if (navbar) {
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+}
+
+const navToggle = document.getElementById('navToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+
+function toggleMobileMenu() {
+  navToggle.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+}
+
+if (navToggle && mobileMenu) {
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => { navToggle.classList.remove('open'); mobileMenu.classList.remove('open'); });
+  });
+  document.addEventListener('click', (e) => {
+    if (mobileMenu.classList.contains('open') && !mobileMenu.contains(e.target) && !navToggle.contains(e.target)) {
+      navToggle.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }
+  });
+}
+/* ---------- Data ---------- */
+const REGIONS = [
+  {
+    id:"gunungkidul", idx:"01", name:"Gunung Kidul",
+    desc:"Garis pantai karst di selatan Jogja, terkenal dengan pasir putih dan gua bawah tanah.",
+    gradient:"linear-gradient(160deg,#0e5c63,#123a52)",
+    spots:[
+      {name:"Gunung Nglanggeran", photo:"https://xplorejogja.com/wp-content/uploads/2025/07/gunung-nglanggeran-menelusuri-keindahan-dan-misteri-gunung-api-purba-yogyakarta1753693962.jpg", tag:"Gunung", fact1:["Jenis","Gunung Purba"], fact2:["Aktivitas","Trekking"], desc:"Gunung Api Purba Nglanggeran merupakan kawasan ekowisata dan bagian dari UNESCO Global Geopark yang berada di Kecamatan Patuk, Kabupaten Gunungkidul. Kawasan pegunungan batu andesit raksasa dengan ketinggian 700 meter di atas permukaan laut. Aktivitas yang dapat dilakukan berupa mendaki melalui celah bebatuan, berkemah (camping), melihat matahari terbit (sunrise), serta mempelajari edukasi geologi. Objek wisata ini menyuguhkan panorama pedesaan di siang hari, pemandangan lampu kota di malam hari, serta memiliki akses dekat menuju waduk buatan Embung Nglanggeran."},
+      {name:"Gua Tubing Kalisuci", photo:"https://xplorejogja.com/wp-content/uploads/2025/07/wisata-petualangan-seru-di-kalisuci-cave-tubing-gunungkidul-surga-eksplorasi-di-perut-bumi-yogyakarta1753884269-1024x692.jpg", tag:"Gua", fact1:["Jenis","Cave tubing"], fact2:["Aktivitas","Susur gua & rafting"], desc:"Destinasi wisata susur gua (cave tubing) pertama di Indonesia yang terletak di kawasan Karst Gunungsewu. Tempat ini menawarkan petualangan air seru mulai dari cave tubing melihat sungai bawah tanah, paddling kano, hingga rafting di tengah pesona stalaktit dan stalagmit yang eksotis."},
+      {name:"Pantai Greweng", photo:"https://getlost.id/wp-content/uploads/2021/07/@muchmarco.jpg", tag:"Pantai", fact1:["Jenis","Tebing, Ombak"], fact2:["Aktivitas","Camping & Santai"], desc:"Pantai Greweng adalah destinasi wisata alam tersembunyi berpasir putih di Girisubo, Gunung Kidul. Diapit oleh dua tebing karst yang menjorok ke laut, pantai ini menawarkan suasana tenang nan alami yang ideal untuk berkemah (camping), memancing, serta memiliki keunikan berupa aliran sungai air tawar kecil yang langsung bermuara ke pantai."},
+      {name:"Pantai NGlambor", photo:"https://zjglidcehtsqqqhbdxyp.supabase.co/storage/v1/object/public/atourin/images/destination/gunung-kidul/pantai-nglambor-profile1696513711.jpeg?x-image-process=image/resize,p_100,limit_1/imageslim", tag:"Pantai", fact1:["Jenis","Pantai pasir putih"], fact2:["Aktivitas","Snorkling Pemula"], desc:"destinasi wisata bahari yang terletak di Dusun Purwodadi, Desa Tepus, Gunung Kidul. Memiliki karakteristik air laut jernih, pasir putih, dan ombak yang cenderung tenang karena keberadaan laguna, tempat ini direkomendasikan untuk aktivitas rekreasi air seperti berenang, bermain pasir, serta melihat pemandangan matahari terbenam (sunset). Pantai ini juga menawarkan fasilitas sewa paket lengkap untuk aktivitas snorkeling guna mengamati ekosistem terumbu karang dan ikan tropis di bawah laut."},
+    ]
+  },
+  {
+    id:"sleman", idx:"02", name:"Sleman",
+    desc:"Dataran tinggi di kaki Gunung Merapi, sejuk dan dekat dengan candi-candi bersejarah.",
+    gradient:"linear-gradient(160deg,#4a2c1c,#2b3a2a)",
+    spots:[
+      {name:"Lava Tour Merapi", photo:"https://labirutour.com/wp-content/uploads/2022/12/Jogja-2.png", tag:"Gunung", fact1:["Jenis","Sisa letusan Merapi"], fact2:["Aktivitas","Jip lava tour"], desc:"Melalui rute bekas aliran lahar di lereng gunung, Lava Tour Merapi mengajak pengunjung menyusuri kawasan terdampak erupsi menggunakan armada jip terbuka. Aktivitas luar ruangan ini memadukan sensasi petualangan melintasi medan offroad dengan pengamatan lanskap panorama pegunungan. Wisata ini menjadi pilihan populer bagi berbagai kalangan untuk melihat sisa sejarah geologi Merapi secara langsung."},
+      {name:"Grojogan Watu Purbo", photo:"https://res.klook.com/image/upload/fl_lossy.progressive,q_65/w_1080/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/jiztxxgvqyh3n4grlvhz.webp", tag:"Air Terjun", fact1:["Jenis","Air Terjun Terasering"], fact2:["Aktivitas","Swafoto, Kegiatan budaya"], desc:"Grojogan Watu Purbo adalah objek wisata air terjun enam tingkat ramah kantong yang terletak di Bangunrejo, Sleman. Memadukan keindahan alam berlatar Gunung Merapi, tempat ini menawarkan aktivitas berswafoto, bermain air, hingga pertunjukan budaya lokal, lengkap dengan fasilitas warung warga dan area parkir yang luas."},
+      {name:"Kaligriya", photo:"https://www.kaliurang.indonesia-tourism.com/images/kaligriya_kaliurang.jpg", tag:"Hutan", fact1:["Jenis","Hutan Pinus "], fact2:["Aktivitas","Camping & Kegiatan Outbond"], desc:"Kaligriya adalah objek wisata alam dan area kegiatan luar ruangan (outdoor) yang terletak di ketinggian hampir 900 meter di atas permukaan laut dengan suasana hutan pinus yang rindang. Destinasi ini direkomendasikan bagi kelompok instansi, komunitas, maupun keluarga yang ingin mengadakan acara berkumpul (gathering), pelatihan, atau retreat. Aktivitas yang ditawarkan meliputi permainan pembentukan tim (team building outbound), paintball, berkemah (camping), hingga tur menggunakan kendaraan jip menyusuri jalur Lava Tour Merapi."},
+      {name:"Candi Prambanan", photo:"https://ik.imagekit.io/tvlk/blog/2021/09/Panduan-Wisata-Candi-Prambanan-Traveloka-Xperience-3.jpg", tag:"Candi", fact1:["Jenis","Situs Bersejarah"], fact2:["Aktivitas","Wisata sejarah & sendratari"], desc:"Candi Prambanan merupakan kompleks candi Hindu terbesar di Indonesia sekaligus Situs Warisan Dunia UNESCO yang didekasikan untuk Dewa Siwa, Wisnu, dan Brahma. Destinasi bersejarah ini direkomendasikan bagi wisatawan untuk melakukan aktivitas edukasi budaya dengan mengamati relief kisah Ramayana dan Krishnayana, berfoto di sekitar pelataran Syiwa Mandala, serta berbelanja oleh-oleh khas Yogyakarta. Pengunjung juga dapat menikmati pertunjukan seni Sendratari Ramayana."},
+    ]
+  },
+  {
+    id:"bantul", idx:"03", name:"Bantul",
+    desc:"Pesisir selatan dengan pantai berombak besar dan sentra kerajinan tradisional.",
+    gradient:"linear-gradient(160deg,#1c3d2e,#33241a)",
+    spots:[
+      {name:"Pantai Parangtritis", photo:"https://images.unsplash.com/photo-1629605924917-d2de56a40951?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", tag:"Pantai", fact1:["Jenis","Pantai berombak besar"], fact2:["Aktivitas","Naik andong, delman pantai"], desc:"Menyuguhkan bentang alam pesisir berpasir vulkanik hitam, Pantai Parangtritis berada di wilayah selatan Yogyakarta dengan karakteristik ombak besar yang dapat mencapai ketinggian 2 hingga 6 meter. Kawasan ini memfasilitasi berbagai aktivitas rekreasi seperti menyusuri pantai menggunakan jip, ATV, atau kereta kuda. Mengingat kontur lautnya yang curam dan arusnya yang kuat, aktivitas berenang di lokasi ini dilarang demi menjaga keselamatan. Selain aspek fisiknya, objek wisata ini juga memiliki keterikatan budaya yang kuat dengan narasi mitologi lokal mengenai legenda Ratu Pantai Selatan."},
+      {name:"Hutan Pinus Mangunan", photo:"https://unycommunity.com/wp-content/uploads/2016/12/Hutan-Pinus-Mangunan.jpeg", tag:"Hutan", fact1:["Jenis","Hutan pinus dataran tinggi"], fact2:["Aktivitas","Foto, udara sejuk"], desc:"Berjarak sekitar 25 kilometer dari pusat Kota Yogyakarta, Hutan Pinus Mangunan menyuguhkan area hutan lindung berudara sejuk dengan kontur perbukitan. Destinasi ini direkomendasikan bagi wisatawan yang ingin melakukan kegiatan fotografi, bersantai di hammock, hingga menikmati matahari terbit (sunrise). Fasilitas penunjang yang tersedia di lokasi sudah memadai, meliputi area parkir luas untuk bus, musala, toilet, warung makanan, area camping ground, hingga akses Wi-Fi gratis."},
+      {name:"Potrobayan River Camp", photo:"https://asset.kompas.com/crops/1O1uDPTnlcTmGbNVRHrVhTsYbJQ=/0x0:1800x1200/1200x800/data/photo/2023/08/07/64d0d2f5392e8.jpg", tag:"Sungai", fact1:["Jenis","Tepian Sungai"], fact2:["Aktivitas","Camping, bersantai"], desc:"Terletak di kawasan Pundong, Potrobayan River Camp menjadi lokasi favorit untuk camping maupun sekadar piknik sore di tepi sungai. Memadukan udara sejuk dari pepohonan rindang dan lanskap aliran sungai yang menenangkan, tempat ini sangat ideal untuk melepas penat dan berswafoto."},
+      {name:"Museumku Gerabah", photo:"https://asset.kompas.com/crops/OyBrAhguZjgaWwe18VUateahzv0=/0x9:4032x2697/1200x800/data/photo/2023/12/09/6573eed6f3c0b.jpg", tag:"Museum", fact1:["Jenis","Museum gerabah"], fact2:["Aktivitas","Kafe & belajar gerabah"], desc:"Museumku Gerabah merupakan pusat edukasi budaya dan galeri seni yang berfokus pada pelestarian kerajinan tanah liat tradisional di kawasan Kasongan, Bantul. Tempat ini menawarkan aktivitas edukasi seperti melihat koleksi artefak gerabah sejarah, mengamati proses pembuatan tembikar secara langsung, serta mengikuti kelas lokakarya (workshop) membentuk tanah liat. Fasilitas pendukung di lokasi meliputi ruang pameran kontemporer, kafe, dan area berfoto dengan latar arsitektur bata merah."},
+      {name:"Desa Wisata Srikeminut", photo:"https://sriharjo.bantulkab.go.id/assets/files/artikel/sedang_1677550023kalioya.jpg", tag:"Kawasan Wisata", fact1:["Jenis","Kawasan Lembah Bukit Seribu"], fact2:["Aktivitas","Outdoor & Agrowisata"], desc:"Memadukan potensi agrowisata dan pelestarian budaya, Desa Wisata Srikeminut mencakup wilayah seluas 107 hektar di lembah perbukitan Kecamatan Imogiri, Bantul. Kawasan yang memanfaatkan bentang alam Sungai Oya dan persawahan terasering ini memfasilitasi aktivitas luar ruangan seperti berkemah, susur sungai, hingga pengamatan panorama dari puncak menara pandang. Lokasi ini juga mengoperasikan Laboratorium Techno Eco Edupark sebagai pusat edukasi sistem irigasi modern dan budidaya kuliner lokal."},
+    ]
+  },
+  {
+    id:"kulonprogo", idx:"04", name:"Kulon Progo",
+    desc:"Perbukitan Menoreh di barat Jogja, rumah bagi waduk, kebun teh, dan spot ketinggian.",
+    gradient:"linear-gradient(160deg,#2a4a3f,#1a2b3d)",
+    spots:[
+      {name:"Kalibiru", photo:"https://i0.wp.com/www.infobudaya.net/wp-content/uploads/2017/09/wisata-Kalibiru.jpg?fit=1018%2C601&ssl=1", tag:"Bukit", fact1:["Jenis","Titik pandang waduk"], fact2:["Aktivitas","Foto gardu pandang"], desc:"Kalibiru Yogyakarta merupakan kawasan wisata alam dan hutan lindung yang berada di ketinggian 450 meter di atas permukaan laut di kawasan Bukit Menoreh. Destinasi agrowisata ini direkomendasikan bagi wisatawan yang ingin menikmati suasana alam tenang melalui aktivitas berjalan kaki (trekking) santai di bawah pepohonan rindang, berfoto di gardu pandang, hingga menguji adrenalin dengan wahana flying fox. Objek wisata ini juga menyuguhkan panorama langsung ke arah bentangan Waduk Sermo."},
+      {name:"Pronosutan View", photo:"https://asset.kompas.com/crops/MgW-SVVvveoUtF6B-PsWJB5OzYk=/0x0:1497x998/1200x800/data/photo/2020/11/20/5fb7863084f77.jpg", tag:"Sawah", fact1:["Jenis","Hamparan Sawah"], fact2:["Aktivitas","Bersepeda, Santai"], desc:"Terletak di Nanggulan, Pronosutan View menawarkan bentangan sawah hijau yang tertata di bawah kaki Perbukitan Menoreh. Destinasi agrowisata ini direkomendasikan untuk melepas penat, menikmati suasana pedesaan yang tenang, melakukan aktivitas cycling, serta berfoto dengan latar belakang alam Kulon Progo."},
+      {name:"Sungai Mudal", photo:"https://campatour.com/wp-content/uploads/2020/09/Taman-Sungai-Mudal.jpg", tag:"Sungai", fact1:["Jenis","Mata air Swadaya"], fact2:["Aktivitas","Outbond & camping"], desc:"Berawal dari kawasan mata air swadaya masyarakat yang kemudian dikembangkan menjadi ekowisata resmi sejak tahun 2016, Sungai Mudal menawarkan bentangan aliran air jernih sepanjang 600 meter dengan suasana yang asri. Tempat ini direkomendasikan bagi wisatawan yang ingin menikmati kesegaran air sumber alami sekaligus mencoba berbagai wahana permainan ketinggian berpemandangan alam. Fasilitas pendukung yang tersedia di lokasi sudah memadai, termasuk area camping ground berdaya tampung hingga 100 orang serta kelengkapan alat keselamatan di setiap wahana."},
+      {name:"Kebun Teh Nglinggo", photo:"https://asset.kompas.com/crops/iabYJPBOOgUIaeyp9XRotFprIps=/0x0:1999x1333/1200x800/data/photo/2021/05/28/60b0dbfda7686.jpg", tag:"Kebun Teh", fact1:["Jenis","Perkebunan teh"], fact2:["Aktivitas","Jalan kaki, petik teh"], desc:"Hamparan kebun teh hijau berundak di lereng bukit, jarang ditemui di Jogja dan terasa seperti dataran tinggi Jawa Barat."},
+    ]
+  },
+  {
+    id:"kota", idx:"05", name:"Kota Yogyakarta",
+    desc:"Jantung budaya dan pemerintahan Kesultanan, padat sejarah di setiap sudut jalannya.",
+    gradient:"linear-gradient(160deg,#3d2a1c,#4a1f2b)",
+    spots:[
+      {name:"Malioboro", photo:"https://images.unsplash.com/photo-1706865369220-246f8b3a93dd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", tag:"Jalan Utama", fact1:["Jenis","Jalan belanja & kuliner"], fact2:["Aktivitas","Lesehan, belanja batik"], desc:"Kawasan Jalan Malioboro membentang sepanjang 2,5 kilometer mulai dari Tugu Yogyakarta hingga Kantor Pos Besar. Area semi-pedestrian ini menjadi pusat aktivitas niaga budaya yang menyajikan deretan pedagang kerajinan lokal, kuliner khas seperti gudeg dan angkringan, hingga pertunjukan seni jalanan. Pengunjung yang menyusuri jalur ini dapat sekaligus mengakses berbagai situs bersejarah di sekitarnya, seperti Benteng Vredeburg, Pasar Beringharjo, dan Istana Keraton Yogyakarta."},
+      {name:"Keraton Yogyakarta", photo:"https://asset.kompas.com/crops/mB_1EEZ4UBoZOgnqHGyY6Xk9_Fs=/19x13:701x468/1200x800/data/photo/2022/01/23/61ecde67a7985.jpeg", tag:"Istana", fact1:["Jenis","Istana Kesultanan"], fact2:["Aktivitas","Wisata budaya"], desc:"Menempati lahan seluas 14.000 meter persegi di pusat kota, Kraton Ngayogyakarta Hadiningrat berdiri sejak tahun 1755 sebagai istana resmi sekaligus pusat pemerintahan Kesultanan Yogyakarta. Kompleks cagar budaya ini dirancang oleh Sri Sultan Hamengkubuwono I dengan perpaduan arsitektur tradisional Jawa serta pengaruh gaya Eropa dan China."},
+      {name:"Tugu Jogja", photo:"https://images.unsplash.com/photo-1732292733618-e811a6e9bf34?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", tag:"Tugu", fact1:["Jenis","Tugu penanda kota"], fact2:["Aktivitas","Foto malam hari"], desc:"Dikenal secara luas dengan sebutan Tugu Pal Putih, monumen ikonik ini berdiri di perempatan antara Jalan Jenderal Sudirman dan Jalan Margo Utomo. Bangunan dengan ciri khas tiang bulat panjang serta ujung runcing ini memiliki nilai kosmologis penting karena menghubungkan Gunung Merapi, Keraton Yogyakarta, dan Pantai Parangtritis dalam poros Garis Imajiner. Area cagar budaya ini menjadi pusat perhatian untuk kegiatan edukasi tata ruang filosofis Jawa, pengamatan sejarah, serta dokumentasi lanskap perkotaan."},
+      {name:"Taman Sari", photo:"https://asset.kompas.com/crops/Y5S_hd-Jn2cuaKYtOfN4ASXnM2Y=/0x0:1000x667/1200x800/data/photo/2022/03/13/622e12c85befb.jpg", tag:"Situs Sejarah", fact1:["Jenis","Bekas taman air kraton"], fact2:["Aktivitas","Wisata sejarah"], desc:"Tamansari merupakan bekas kebun istana Keraton Yogyakarta berluas lebih dari 10 hektar yang dibangun pada masa Sri Sultan Hamengku Buwono I. Kompleks bersejarah yang dijuluki Water Kasteel ini memiliki puluhan bangunan dengan arsitektur perpaduan Jawa dan Portugis, termasuk kolam pemandian, lorong bawah tanah, serta Sumur Gumuling yang dahulu berfungsi sebagai masjid. Tempat ini menawarkan aktivitas edukasi sejarah, pengamatan arsitektur kuno, serta kegiatan berfoto di area reruntuhan bangunan yang telah direnovasi."},
+      {name:"Museum Terumbu Karang", photo:"https://lh3.googleusercontent.com/grass-cs/ANxoTn2oLVCuMUQXUlfrapOTaIAZUd1rPEVU__dukMc5AJznsLsSuNiclzSJH95pBF0EzfpA7VTqv0htLJyMeF76fzXcedTflMX_P7G-e4PDRh8iMIVBFa5YtUFTrReFtOIWqK1CeWlUK7AvHCQ8=s2326-w2326-h1148-rw", tag:"Museum", fact1:["Jenis","Museum biota laut"], fact2:["Aktivitas","Wisata museum"], desc:"Indonesian Reefer's Coral Studio merupakan museum terumbu karang pertama di Indonesia yang berlokasi di Sleman. Berawal dari hobi dan studio budidaya mandiri, tempat ini berkembang menjadi ruang edukasi gratis yang melestarikan lebih dari 100 jenis koral, ikan tropis, hingga hiu. Dengan konsep informatif, pengunjung dapat belajar langsung mengenai budidaya terumbu karang dan biota laut bersama tour guide tanpa dipungut biaya masuk."},
+    ]
+  },
+];
+
+/* ---------- Render ---------- */
+const main = document.getElementById("main");
+
+REGIONS.forEach(region=>{
+  const section = document.createElement("section");
+  section.className = "region-block";
+  section.id = region.id;
+
+  section.innerHTML = `
+    <div class="region-head">
+      <h2><span class="idx">${region.idx}</span>${region.name}</h2>
+      <p>${region.desc}</p>
+    </div>
+    <div class="grid"></div>
+  `;
+
+  const grid = section.querySelector(".grid");
+  region.spots.forEach(spot=>{
+    const card = document.createElement("div");
+    card.className = "card";
+    card.tabIndex = 0;
+    card.setAttribute("role","button");
+    card.setAttribute("aria-haspopup","dialog");
+    card.innerHTML = `
+      <div class="card-photo" style="background:${region.gradient}">
+        <img class="card-photo-img" src="${spot.photo}" alt="${spot.name}" loading="lazy">
+      </div>
+      <div class="card-shade"></div>
+      <div class="card-info">
+        <span class="card-tag">${spot.tag} · ${region.name}</span>
+        <span class="card-name">${spot.name}</span>
+      </div>
+    `;
+    const openHandler = ()=> openPopout(region, spot);
+    card.addEventListener("click", openHandler);
+    card.addEventListener("keydown", e=>{
+      if(e.key==="Enter" || e.key===" "){ e.preventDefault(); openHandler(); }
+    });
+    grid.appendChild(card);
+  });
+
+  main.appendChild(section);
+});
+
+/* ---------- Popout logic ---------- */
+const overlay = document.getElementById("overlay");
+const popoutPhoto = document.getElementById("popoutPhoto");
+const popoutBody = document.getElementById("popoutBody");
+let lastFocused = null;
+
+function openPopout(region, spot){
+  lastFocused = document.activeElement;
+  popoutPhoto.style.background = region.gradient;
+  popoutPhoto.innerHTML = `<img class="card-photo-img" src="${spot.photo}" alt="${spot.name}"><div class="card-shade"></div>`;
+  popoutBody.innerHTML = `
+    <span class="popout-tag">${spot.tag} · ${region.name}</span>
+    <h3>${spot.name}</h3>
+    <p>${spot.desc}</p>
+    <div class="popout-facts">
+      <div><span>${spot.fact1[0]}</span><b>${spot.fact1[1]}</b></div>
+      <div><span>${spot.fact2[0]}</span><b>${spot.fact2[1]}</b></div>
+    </div>
+  `;
+  overlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+  document.getElementById("closeBtn").focus();
+}
+function closePopout(){
+  overlay.classList.remove("open");
+  document.body.style.overflow = "";
+  if(lastFocused) lastFocused.focus();
+}
+overlay.addEventListener("click", e=>{ if(e.target===overlay) closePopout(); });
+document.getElementById("closeBtn").addEventListener("click", closePopout);
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closePopout(); });
+
+/* ---------- Region nav filter/scroll ---------- */
+const filterToggle = document.getElementById("filterToggle");
+const chipList = document.getElementById("chipList");
+filterToggle.addEventListener("click", ()=>{
+  const isOpen = chipList.classList.toggle("open");
+  filterToggle.setAttribute("aria-expanded", isOpen);
+});
+
+const chips = document.querySelectorAll(".chip");
+chips.forEach(chip=>{
+  chip.addEventListener("click", ()=>{
+    chips.forEach(c=>c.classList.remove("active"));
+    chip.classList.add("active");
+    chipList.classList.remove("open");
+    filterToggle.setAttribute("aria-expanded", "false");
+    const target = chip.dataset.target;
+    if(target==="all"){
+      document.querySelectorAll(".region-block").forEach(s=> s.style.display = "block");
+      window.scrollTo({top:0, behavior:"smooth"});
+    } else {
+      document.querySelectorAll(".region-block").forEach(s=>{
+        s.style.display = (s.id===target) ? "block" : "none";
+      });
+      document.getElementById(target).scrollIntoView({behavior:"smooth", block:"start"});
+    }
+  });
+});
+</script>
+</body>
+</html>
