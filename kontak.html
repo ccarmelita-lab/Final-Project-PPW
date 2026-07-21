@@ -109,7 +109,7 @@ body { font-family: 'Inter', sans-serif; color: var(--text-dark); background: va
   .mobile-menu.open { transform: translateY(0);
     opacity: 1;
     pointer-events: auto;}
-  .mobile-menu a{ font-size:14px; font-weight:600; text-transform:uppercase; letter-spacing:.05em; text-decoration:none; }
+  .mobile-menu a{ font-size:14px; font-weight:600; text-transform:uppercase; letter-spacing:.05em; text-decoration:none;color:var(--text-dark); }
 
   @media (max-width: 62rem) {
     .nav-links, .nav-search { display: none; }
@@ -514,6 +514,47 @@ footer { background: #111; color: rgba(255,255,255,0.55); padding: 0 0 32px; }
 .contact-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.45); }
 .contact-value { font-size: 14px; font-weight: 500; color: var(--white); }
 
+/*Table*/
+.jam-operasional {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+.jam-operasional caption {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 8px;
+}
+.jam-operasional th,
+.jam-operasional td {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 14px;
+}
+.jam-operasional thead th {
+  background: rgba(212,160,64,0.15);
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(212,160,64,0.25);
+}
+.jam-operasional tbody td {
+  color: var(--white);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.jam-operasional tbody tr:last-child td {
+  border-bottom: none;
+}
+.jam-operasional tbody tr:hover td {
+  background: rgba(255,255,255,0.03);
+}
+
 .contact-socials { display: flex; gap: 10px; margin-top: 28px; }
 
 .contact-visual {
@@ -523,25 +564,29 @@ footer { background: #111; color: rgba(255,255,255,0.55); padding: 0 0 32px; }
   background: #0d3b1e;
   border: 1px solid rgba(255,255,255,0.08);
 }
-.contact-visual-img {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: center; z-index: 0;
+.visual-photo {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+.visual-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 .contact-visual-overlay {
   position: absolute; inset: 0; z-index: 1;
   background: linear-gradient(180deg, rgba(13,59,30,0.25) 0%, rgba(13,59,30,0.55) 55%, rgba(9,38,20,0.92) 100%);
-}
-.contact-visual-batik {
-  position: absolute; bottom: 18px; right: 20px; z-index: 2;
-  font-size: 56px; letter-spacing: 8px;
-  color: rgba(212,160,64,0.25);
   pointer-events: none;
+  
 }
 .contact-visual-badge {
   position: relative; z-index: 2;
   align-self: flex-start;
-  background: var(--gold); color: var(--text-dark);
-  border-radius: 12px; padding: 18px 22px;
+  background: rgba(249, 179, 49, 0.67); color: var(--text-dark);
+  margin: 15px 0 ;
+  border-radius: 12px; padding: 15px 22px;
   display: flex; flex-direction: column; gap: 2px;
 }
 .contact-visual-num { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; line-height: 1; }
@@ -551,6 +596,17 @@ footer { background: #111; color: rgba(255,255,255,0.55); padding: 0 0 32px; }
   font-family: 'Playfair Display', serif; font-style: italic; font-size: 19px;
   color: rgba(255,255,255,0.9); line-height: 1.5; max-width: 320px;
 }
+/*Button Play*/
+.play-button {
+  position: absolute; z-index: 3;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(255,255,255,0.9); border: none;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-dark); cursor: pointer;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.play-button:hover { transform: translate(-50%, -50%) scale(1.1); background: #fff; }
 
 @media (max-width: 900px) {
   .contact-visual { min-height: 220px; }
@@ -758,9 +814,9 @@ textarea.form-control { resize: vertical; min-height: 90px; }
 <body>
     <!-- NAV -->
 <nav id="navbar">
-  <a href="index.html" class="nav-logo">Jelajah<span>Jogja</span></a>
+  <a href="beranda.html" class="nav-logo">Jelajah<span>Jogja</span></a>
   <ul class="nav-links">
-    <li><a href="index.html">Beranda</a></li>
+    <li><a href="beranda.html">Beranda</a></li>
     <li class="dropdown">
       <a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">
         Destinasi
@@ -783,6 +839,8 @@ textarea.form-control { resize: vertical; min-height: 90px; }
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="beranda.html">Beranda</a>
+  <a href="wisata.html">Wisata</a>
+  <a href="budaya.html">Budaya</a>
   <a href="ulasan.html">Ulasan</a>
   <a href="kontak.html">Kontak</a>
 </div>
@@ -847,30 +905,38 @@ textarea.form-control { resize: vertical; min-height: 90px; }
               <div class="contact-value">Jl. Kenangan No. 72, Yogyakarta</div>
             </div>
           </div>
-          <div class="contact-item">
-            <div class="contact-icon"><div class="contact-icon-dot"></div></div>
-            <div>
-              <div class="contact-label">Jam Operasional</div>
-              <div class="contact-value">Senin – Sabtu, 08.00 – 20.00 WIB</div>
-            </div>
-          </div>
         </div>
+        <table class="jam-operasional">
+          <caption>Jam Operasional Layanan Pelanggan Jelajah Jogja</caption>
+          <thead>
+            <tr><th>Hari</th><th>Jam Buka</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Senin – Kamis</td><td>08.00 – 20.00</td></tr>
+            <tr><td>Jumat – Sabtu</td><td>09.00 – 21.00</td></tr>
+          </tbody>
+        </table>
         <div class="contact-socials">
-          <a href="#" class="footer-social" aria-label="Facebook">f</a>
-          <a href="#" class="footer-social" aria-label="Instagram">ig</a>
-          <a href="#" class="footer-social" aria-label="YouTube">yt</a>
+          <a href="https://www.facebook.com/jogya/" class="footer-social" aria-label="Facebook">f</a>
+          <a href="https://www.instagram.com/jogjaku/" class="footer-social" class="footer-social" aria-label="Instagram">ig</a>
+          <a href="https://youtu.be/0Fi4JeizyZg?si=cBzFVc7iasAHq2Tm" class="footer-social" aria-label="YouTube">yt</a>
         </div>
       </div>
 
-      <div class="contact-visual">
-        <img src="https://images.unsplash.com/photo-1740812507973-3219c210284b?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Tugu Jogja" class="contact-visual-img">
+      <div class="contact-visual" id="visual">
+        <div class="visual-photo">
+          <img src="https://www.yogyes.com/id/yogyakarta-tourism-object/candi/prambanan/1.jpg" alt="contactVisual" id="visualPhoto">
+          <button class="play-button" id="playBtn" aria-label="Putar video">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
         <div class="contact-visual-overlay"></div>
-        <div class="contact-visual-batik" aria-hidden="true">ꦠꦸꦒꦸ ꦗꦺꦴꦒ꧀ꦗ</div>
         <div class="contact-visual-badge">
           <span class="contact-visual-num">10+</span>
-          <span class="contact-visual-label">Tahun Melayani<br>Wisatawan Jogja</span>
+          <span class="contact-visual-label">Tahun Melayani Wisatawan Jogja</span>
         </div>
         <div class="contact-visual-quote">"Setiap perjalanan dimulai dari satu percakapan baik."</div>
+        
       </div>
     </div>
   </div>
@@ -886,9 +952,9 @@ textarea.form-control { resize: vertical; min-height: 90px; }
     <div class="footer-bottom">
       <span class="footer-copy">&copy; 2026 JelajahJogja. Hak cipta dilindungi.</span>
       <div class="footer-socials">
-        <a href="#" class="footer-social">f</a>
-        <a href="#" class="footer-social">ig</a>
-        <a href="#" class="footer-social">yt</a>
+        <a href="https://www.facebook.com/jogya/" class="footer-social">f</a>
+        <a href="https://www.instagram.com/jogjaku/" class="footer-social" class="footer-social">ig</a>
+        <a href="https://youtu.be/0Fi4JeizyZg?si=cBzFVc7iasAHq2Tm" class="footer-social">yt</a>
       </div>
     </div>
   </footer>
@@ -908,6 +974,49 @@ textarea.form-control { resize: vertical; min-height: 90px; }
 <!-- BACK TO TOP -->
 <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">&#8593;</button>
 
-<script src="script1.js"></script>
+<script>
+  
+  const navbar = document.getElementById('navbar');
+if (navbar) {
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+}
+
+const navToggle = document.getElementById('navToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+
+function toggleMobileMenu() {
+  navToggle.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+}
+
+if (navToggle && mobileMenu) {
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => { navToggle.classList.remove('open'); mobileMenu.classList.remove('open'); });
+  });
+  document.addEventListener('click', (e) => {
+    if (mobileMenu.classList.contains('open') && !mobileMenu.contains(e.target) && !navToggle.contains(e.target)) {
+      navToggle.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }
+  });
+}
+
+//Button Play
+  document.getElementById('playBtn').addEventListener('click', function(){
+    const card = document.getElementById('visual');
+    const iframe = document.createElement('iframe');
+    iframe.id = 'visualPhoto';
+    iframe.style.cssText = 'width:100%; height:100%; display:block; border:0;';
+    iframe.src = 'https://www.youtube.com/embed/0Fi4JeizyZg?si=kIrivxJtzXpguV3e&autoplay=1&mute=1';
+    iframe.setAttribute('allow', 'autoplay; encrypted-media');
+    iframe.setAttribute('allowfullscreen', '');
+
+    document.getElementById('visualPhoto').replaceWith(iframe);
+    this.remove();
+    card.classList.add('is-playing');
+  });
+</script>
 </body>
 </html>

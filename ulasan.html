@@ -137,19 +137,19 @@
   }
   .dropdown-item {
     display: block;
-    padding: 9px 12px !important;
+    padding: 9px 12px;
     border-radius: 8px;
-    border-bottom: none !important;
-    font-size: 12.5px !important;
+    border-bottom: none;
+    font-size: 12.5px;
     font-weight: 600;
-    text-transform: none !important;
-    letter-spacing: 0 !important;
+    text-transform: none;
+    letter-spacing: 0;
     color: var(--text-dark);
     text-decoration: none;
   }
   .dropdown-item:hover {
     background: var(--paper);
-    color: var(--soga-deep) !important;
+    color: var(--soga-deep);
   }
 
   /* Hamburger menu (mobile) */
@@ -598,9 +598,9 @@
 
 <!-- NAV -->
 <nav id="navbar">
-  <a href="index.html" class="nav-logo">Jelajah<span>Jogja</span></a>
+  <a href="beranda.html" class="nav-logo">Jelajah<span>Jogja</span></a>
   <ul class="nav-links">
-    <li><a href="index.html">Beranda</a></li>
+    <li><a href="beranda.html">Beranda</a></li>
     <li class="dropdown">
       <a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">
         Destinasi
@@ -622,7 +622,7 @@
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="index.html">Beranda</a>
+  <a href="beranda.html">Beranda</a>
   <a href="wisata.html">Wisata</a>
   <a href="budaya.html">Budaya</a>
   <a href="ulasan.html" class="active">Ulasan</a>
@@ -644,7 +644,7 @@
   <div class="filters" id="filters"></div>
   <div class="grid" id="grid"></div>
 
-  <div class="cta">
+  <div class="cta" id="ulasan">
     <div>
       <h3>Sudah Pernah ke Jogja?</h3>
       <p>Bagikan pengalamanmu menjelajahi destinasi favorit dan bantu wisatawan lain menemukan sudut Jogja yang paling berkesan.</p>
@@ -656,7 +656,7 @@
 <footer class="site-footer">
   <div class="footer-top">
     <div class="footer-brand">
-      <a href="index.html" class="nav-logo">Jelajah<span>Jogja</span></a>
+      <a href="beranda.html" class="nav-logo">Jelajah<span>Jogja</span></a>
       <p>Platform wisata terpercaya untuk menjelajahi keajaiban alam dan budaya Yogyakarta yang tak tertandingi.</p>
     </div>
   </div>
@@ -763,7 +763,6 @@ function avatarColor(name){
 
 /* 3. RENDER KARTU ULASAN */
 const grid = document.getElementById('grid');
-
 function renderGrid(list){
   grid.innerHTML = list.map(r => `
     <article class="card">
@@ -812,7 +811,7 @@ const fDest = document.getElementById('fDest');
   fDest.innerHTML += `<option value="${d}">${d}</option>`;
 });
 
-/* 5. BUKA / TUTUP MODAL */
+/* 5. BUKA/TUTUP MODAL */
 const overlay = document.getElementById('overlay');
 document.getElementById('openModalBtn').addEventListener('click', () => overlay.classList.add('open'));
 document.getElementById('closeModalBtn').addEventListener('click', () => overlay.classList.remove('open'));
@@ -890,7 +889,7 @@ document.getElementById('reviewForm').addEventListener('submit', (e) => {
   selectedScore = 0;
   renderStarPicker();
   overlay.classList.remove('open');
-  showToast('Terima kasih! Ulasanmu berhasil ditambahkan 🌿');
+  showToast('Terima kasih! Ulasanmu berhasil ditambahkan');
 });
 
 /* 9. TOAST NOTIFIKASI */
