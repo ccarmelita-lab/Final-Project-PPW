@@ -172,14 +172,14 @@
     }
     .hero-content {
       position: relative; z-index: 2;
-      padding: 0 20px 0 64px; max-width: 680px;
+      padding: 0 20px; max-width: 680px;
       margin-top: 64px;
     }
     .hero-dots{
-      left: 64px;
+      left: 28px;
     }
     .hero-eyebrow {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
       color: var(--gold); margin-bottom: 20px;
     }
     .hero-title {
@@ -187,12 +187,10 @@
       font-size: clamp(44px, 7vw, 84px);
       font-weight: 900; line-height: 1.02;
       color: var(--white); margin-bottom: 24px;
-      margin-top: -18px;
-      position: relative;
     }
     .hero-title em { font-style: italic; color: var(--gold); }
     .hero-desc {
-      font-size: 15px; font-weight: 700; line-height: 1.75;
+      font-size: 15px; font-weight: 300; line-height: 1.75;
       color: rgba(255,255,255,0.78);
       max-width: 440px; margin-bottom: 40px;
     }
@@ -228,12 +226,12 @@
       transition: background 0.2s;
     }
     .hero-arrow:hover { background: rgba(255,255,255,0.2); }
-    .hero-arrow.prev { left: 44px; }
-    .hero-arrow.next { right: 44px; }
+    .hero-arrow.prev { left: 20px; }
+    .hero-arrow.next { right: 20px; }
 
     /* Slide dots */
     .hero-dots {
-      position: absolute; bottom: 100px; left: 64px; z-index: 3;
+      position: absolute; bottom: 100px; left: 80px; z-index: 3;
       display: flex; gap: 8px;
     }
     .dot {
@@ -269,7 +267,7 @@
     /* TOP DESTINASI POPULER */
     .top-dest-section { padding: 96px 80px; }
     .section-eyebrow {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
       color: var(--green-mid); margin-bottom: 14px;
     }
     .section-title {
@@ -279,7 +277,7 @@
     }
     .section-title em { font-style: normal; color: var(--gold); display: inline; 
     position: relative; top: 3px;}
-    .section-desc { font-size: 15px; font-weight: 700; color: var(--text-muted); max-width: 500px; line-height: 1.75; }
+    .section-desc { font-size: 15px; color: var(--text-muted); max-width: 500px; line-height: 1.75; }
     .top-dest-section{
         padding:56px 24px;
     }
@@ -358,7 +356,7 @@
       margin-bottom: 9px; line-height: 1.1;
     }
     .top-dest-desc {
-      font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.78);
+      font-size: 14px; color: rgba(255,255,255,0.78);
       line-height: 1.5; max-width: 92%;
     }
     .top-dest-arrow {
@@ -472,9 +470,9 @@
 <body>
 <!-- NAV -->
 <nav id="navbar">
-  <a href="Beranda.html" class="nav-logo">Jelajah<span>Jogja</span></a>
+  <a href="beranda.html" class="nav-logo">Jelajah<span>Jogja</span></a>
   <ul class="nav-links">
-    <li><a href="Beranda.html">Beranda</a></li>
+    <li><a href="beranda.html">Beranda</a></li>
 
     <li class="dropdown">
       <a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -490,7 +488,7 @@
     </li>
 
     <li><a href="ulasan.html">Ulasan</a></li>
-    <li><a href="kontak_fixx.html">Kontak</a></li>
+    <li><a href="kontak.html">Kontak</a></li>
   </ul>
 
   <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">
@@ -503,11 +501,11 @@
 
 <!-- MOBILE MENU HAMBURGER -->
  <div class="mobile-menu" id="mobileMenu">
-  <a href="Beranda.html">Beranda</a>
+  <a href="beranda.html">Beranda</a>
   <a href="wisata.html">Wisata</a>
   <a href="budaya.html">Budaya</a>
   <a href="ulasan.html">Ulasan</a>
-  <a href="kontak_fixx.html">Kontak</a>
+  <a href="kontak.html">Kontak</a>
 </div>
 
 <!-- HERO -->
